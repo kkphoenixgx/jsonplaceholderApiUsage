@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link rel="stylesheet" href="style.css">
+        <script src="index.js" defer type="text/javascript"></script>
+         
+        <!-- <link rel="icon" type="image/png" href="x"> -->
+        <title>Feching JSON</title>
+    </head>
+    <body>
+      <h1>Fetching posts from jsonplaceholder</h1>
+
+      <h2>About the open API</h2>
+
+      <p>
+        Here I am fetching javascript code from 
+        <a href="https://jsonplaceholder.typicode.com ">https://jsonplaceholder.typicode.com</a>
+        and transforming those in posts loaded from the api.  There is another project that I made that do the same in react, please <a href="https://kkphoenixgx.github.io/react-exercises-site/">check it out</a>! Here it is the routes to the API:
+      </p>
+
+      <img src="./routes.png" alt="routes that you can use with jsonplaceholder API">
+
+      <h2>Post to API</h2>
+
+      <p>To post something, we can use:</p>
+
+      <code>
+  const form = document.getElementById("postForm");
+
+  const createPost = async (title, body, userId = 1) => {
+    try {
+      const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title,
+          body,
+          userId
+        })
+      });
+  
+      const data = await response.json();
+      console.log('Post criado:', data);
+      return data;
+    } catch (error) {
+      console.error('Erro ao criar post:', error);
+    }
+  };
+  
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const title = document.getElementById("title").value;
+    const body = document.getElementById("body").value;
+  
+    const createdPost = await createPost(title, body);
+    alert("Post criado com ID: " + createdPost.id);
+  });
+      </code>
+
+      <h3> Crie seu post! </h3>
+
+      <p>This API does not actually update the posts because it is just for testing and learning purposes. Adding too many posts would overload its server, so it only responds with a simulated response and an ID to indicate that the request was successful.</p>
+
+      <form id="postForm">
+        <input type="text" id="title" placeholder="Título" required />
+        <textarea id="body" placeholder="Conteúdo" required></textarea>
+        <button type="submit">Criar Post</button>
+      </form>
+
+      <h2>Listar</h2>
+      <code>
+  const responsesDivEl = document.querySelector("#responses")
+
+  const fetchPosts = async  ()=>{
+  
+    const postsResponse = fetch('https://jsonplaceholder.typicode.com/posts');
+    const photosResponse = fetch('https://jsonplaceholder.typicode.com/photos');
+    
+    const [posts, photos] = await Promise.all([postsResponse, photosResponse]);
+    
+    const postsJson = await posts.json()
+    const photosJson = await photos.json();
+    
+    const postsAndPhotos = postsJson.map((post, index) => {
+        const newUrl = photosJson[index].url.replace('https://via.placeholder.com', 'https://picsum.photos/seed').split("/")
+        const p1 = newUrl[newUrl.length - 1] 
+        const p2 = newUrl[newUrl.length - 2]
+  
+        newUrl[newUrl.length - 1] = p2
+        newUrl[newUrl.length - 2] = p1
+        
+        return { ...post, cover: newUrl.join("/") };
+    })
+  
+    return postsAndPhotos;
+  }
+  
+  const generatePosts = (postsAndPhotos) => {
+    postsAndPhotos.forEach(({ cover, title, body }) => {
+      const postEl = document.createElement("div");
+      postEl.className = "post";
+  
+      postEl.innerHTML = `
+        &lt;img src="${cover}" alt="${title}" /&gt;
+        &lt;div class="post-content"&gt;
+          &lt;h3&gt;${title}&lt;/h3&gt;
+          &lt;p&gt;${body}&lt;/p&gt;
+        &lt;/div&gt;
+      `;
+  
+      responsesDivEl.appendChild(postEl);
+    });
+  };
+  
+  
+  (async () => {
+    const postsAndPhotos = await fetchPosts();
+    generatePosts(postsAndPhotos)
+  })();
+          
+      </code>
+    
+      <h2>Responses</h2>
+      
+      <div class="posts" id="responses" ></div>
+
+    </body>
+</html>

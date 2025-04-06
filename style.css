@@ -1,0 +1,98 @@
+*{
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+body{
+  margin: 4%;
+}
+
+h1{
+  width: 100vw;
+  text-align: center;
+}
+
+h1, h2, h3{
+  margin-bottom: 3%;
+}
+h2, h3{
+  margin-top: 3%;
+}
+
+code {
+  display: block;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.95rem;
+  background-color: #1e1e1e;
+  color: #dcdcdc;
+  padding: 1rem;
+  border-radius: 8px;
+  white-space: pre; /* Mantém quebras e espaços */
+  overflow-x: auto; /* Scroll horizontal se necessário */
+  border: 1px solid #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  line-height: 1.5;
+}
+
+/* Scrollbar custom (opcional) */
+code::-webkit-scrollbar {
+  height: 8px;
+}
+code::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+}
+code::-webkit-scrollbar-track {
+  background-color: #222;
+}
+
+#postForm{
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  margin-top: 3%;
+}
+
+#postForm textarea{
+  min-width: 21%;
+  margin: 2% 0;
+  max-width: 100%;
+}
+
+.posts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.posts img{
+  width: 370px;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(44, 44, 44);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.posts :hover{
+  transform: scale(1.05);
+}
+
+.post-content h3 {
+  width: 100%;
+  color: white;
+  text-align: center;
+  font-family: 1.5rem;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.post-content p {
+  width: 100%;
+  text-align: center;
+  margin-top: 3%;
+  padding: 2%;
+}
